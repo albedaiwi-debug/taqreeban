@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0e1628" />
+<title>تقريباً — العب</title>
+<link rel="stylesheet" href="/style.css" />
+<style>
+  body { min-height: 100dvh; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); min-height: 100dvh; display: flex; flex-direction: column; }
+  .bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .bar .logo { font-size: 1.4rem; }
+  .screen { flex: 1; display: flex; flex-direction: column; }
+  .mid { margin: auto 0; text-align: center; }
+  .field { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid var(--line); background: var(--bg2); color: var(--text); font-size: 1.3rem; text-align: center; outline: none; }
+  .field:focus { border-color: var(--gold); }
+  .field.code { letter-spacing: 10px; font-weight: 700; direction: ltr; text-transform: uppercase; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .big { font-size: 2rem; font-weight: 700; margin: 6px 0; }
+  .err { color: var(--red); min-height: 1.4em; }
+  .tpick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .tpick button { padding: 16px 8px; border-radius: 14px; background: var(--bg2); border: 3px solid transparent; font-weight: 700; font-size: 1.15rem; }
+  .tpick button.on { background: var(--card); }
+
+  /* Question */
+  .q { font-size: 1.2rem; font-weight: 600; line-height: 1.5; margin: 2px 0 4px; }
+  .tbar { height: 8px; background: var(--bg2); border-radius: 99px; overflow: hidden; margin: 6px 0 10px; }
+  .tbar div { height: 100%; background: var(--gold); width: 100%; }
+  .display { background: var(--bg2); border: 2px solid var(--line); border-radius: 16px; padding: 10px 14px; text-align: center; min-height: 92px; display: flex; flex-direction: column; justify-content: center; }
+  .display .main { font-size: 2.1rem; font-weight: 700; line-height: 1.2; }
+  .display .main .ph { color: var(--muted); font-weight: 400; font-size: 1.3rem; }
+  .display .full { color: var(--muted); font-size: 1rem; min-height: 1.3em; }
+  .mults { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+  .mults button { padding: 12px 0; border-radius: 12px; background: var(--bg2); border: 2px solid var(--line); font-weight: 700; font-size: 1.1rem; }
+  .mults button.on { border-color: var(--gold); color: var(--gold); background: rgba(255,200,69,.08); }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; direction: ltr; }
+  .pad button { padding: 14px 0; border-radius: 12px; background: var(--card); font-size: 1.6rem; font-weight: 600; }
+  .pad button:active { background: var(--line); }
+  .submit { margin-top: 12px; width: 100%; font-size: 1.35rem; padding: 16px; }
+  .locked { text-align: center; padding: 18px; }
+  .locked .v { font-size: 2.2rem; font-weight: 700; color: var(--teal); }
+
+  /* Result */
+  .res { text-align: center; }
+  .res .mult { font-size: 4.4rem; font-weight: 700; direction: ltr; line-height: 1.1; }
+  .kv { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .kv:last-child { border: 0; }
+  .lbrow { display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .lbrow.me { color: var(--gold); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar"><div class="logo">تقريب<span>اً</span></div><div id="who" class="muted"></div></div>
+  <div class="screen" id="screen"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/shared.js"></script>
+<script>
+const socket = io();
+const LS_KEY = 'taqreeban.player';
+const $screen = document.getElementById('screen');
+const $who = document.getElementById('who');
+let state = null;
+let deadline = 0;
+let entry = '';     // digits typed, e.g. "3.2"
+let mult = 1;       // 1, 1e3, 1e6, 1e9
+let editing = false;
+let lastQ = -1;
+let joinErr = '';
+
+const saved = () => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { return {}; } };
+const urlCode = (new URLSearchParams(location.search).get('r') || '').toUpperCase();
+
+socket.on('connect', () => {
+  const s = saved();
+  // Auto-rejoin the same room after refresh / lock screen.
+  if (s.playerId && s.code && (!urlCode || urlCode === s.code)) {
+    socket.emit('player:join', { code: s.code, playerId: s.playerId, name: s.name }, (res) => {
+      if (!res?.ok) { localStorage.setItem(LS_KEY, JSON.stringify({ name: s.name })); renderJoin(); }
+    });
+  } else if (!state) renderJoin();
+});
+socket.on('kicked', () => { localStorage.setItem(LS_KEY, JSON.stringify({ name: saved().name })); state = null; joinErr = 'تمت إزالتك من الغرفة'; renderJoin(); });
+socket.on('state', (s) => {
+  state = s;
+  if (s.phase === 'question') {
+    deadline = Date.now() + s.remainingMs;
+    if (s.qIndex !== lastQ) { entry = ''; mult = 1; editing = false; lastQ = s.qIndex; }
+  }
+  render();
+});
+
+function renderJoin() {
+  $who.textContent = '';
+  const s = saved();
+  const code = el('input', { class: 'field code', maxlength: 4, placeholder: 'ABCD', value: urlCode || s.code || '', autocomplete: 'off', autocapitalize: 'characters' });
+  const name = el('input', { class: 'field', maxlength: 16, placeholder: 'اسمك', value: s.name || '' });
+  const err = el('div', { class: 'err' }, joinErr);
+  const go = () => {
+    const c = code.value.trim().toUpperCase();
+    const n = name.value.trim();
+    if (c.length !== 4) return (err.textContent = 'اكتب رمز الغرفة (٤ حروف)');
+    if (!n) return (err.textContent = 'اكتب اسمك');
+    socket.emit('player:join', { code: c, name: n }, (res) => {
+      if (!res?.ok) { err.textContent = { 'no-room': 'الغرفة غير موجودة — تأكد من الرمز', full: 'الغرفة ممتلئة', 'no-name': 'اكتب اسمك' }[res?.error] || 'تعذر الانضمام'; return; }
+      joinErr = '';
+      localStorage.setItem(LS_KEY, JSON.stringify({ code: res.code, playerId: res.playerId, name: n }));
+    });
+  };
+  $screen.replaceChildren(
+    el('div', { class: 'mid stack pop' },
+      el('div', { class: 'big' }, 'انضم للعبة'),
+      el('div', { class: 'muted' }, 'خمّن الأرقام… الأقرب يفوز'),
+      urlCode ? null : code,
+      name,
+      err,
+      el('button', { class: 'btn', onclick: go }, 'دخول'),
+    ),
+  );
+  if (urlCode) code.value = urlCode;
+  (urlCode ? name : code).focus();
+  name.addEventListener('keydown', (e) => e.key === 'Enter' && go());
+  if (urlCode) $screen.querySelector('.stack').insertBefore(el('div', { class: 'chip', style: 'align-self:center' }, 'الغرفة: ', el('b', { class: 'gold ltr' }, urlCode)), name);
+}
+
+function render() {
+  if (!state) return;
+  const team = teamById(state, state.me.teamId);
+  $who.replaceChildren(team && state.mode === 'team' ? el('i', { class: 'dot', style: `background:${team.color};margin-left:6px` }) : '', state.me.name);
+  ({ lobby: renderLobby, ready: renderReady, question: renderQuestion, reveal: renderReveal, leaderboard: renderBoard, final: renderBoard })[state.phase]?.();
+}
+
+function renderLobby() {
+  const s = state;
+  $screen.replaceChildren(
+    el('div', { class: 'mid pop' },
+      el('div', { class: 'big' }, `أهلاً ${s.me.name} 👋`),
+      el('div', { class: 'muted' }, 'انتظر المضيف يبدأ اللعبة'),
+      s.mode === 'team' ? el('div', {},
+        el('div', { style: 'margin-top:26px;font-weight:600' }, 'اختر فريقك'),
+        el('div', { class: 'tpick' }, s.teams.map((t) => el('button', {
+          class: s.me.teamId === t.id ? 'on' : '',
+          style: `color:${t.color};${s.me.teamId === t.id ? `border-color:${t.color}` : ''}`,
+          onclick: () => socket.emit('player:team', { teamId: t.id }),
+        }, t.name))),
+      ) : null,
+      el('button', { class: 'btn ghost', style: 'margin-top:30px', onclick: leave }, 'خروج'),
+    ),
+  );
+}
+
+function leave() {
+  socket.emit('player:leave');
+  localStorage.setItem(LS_KEY, JSON.stringify({ name: saved().name }));
+  state = null;
+  renderJoin();
+}
+
+function renderReady() {
+  $screen.replaceChildren(
+    el('div', { class: 'mid pop' },
+      el('div', { class: 'muted' }, `السؤال ${fmtOrdinal(state.qIndex + 1)} من ${fmtOrdinal(state.total)}`),
+      el('div', { class: 'big' }, 'استعد… 👀'),
+      el('div', { class: 'muted' }, 'السؤال يظهر على الشاشة الكبيرة'),
+    ),
+  );
+}
+
+// ---------- Guess keypad ----------
+const MULTS = [[1e3, 'ألف'], [1e6, 'مليون'], [1e9, 'مليار']];
+const value = () => { const v = parseFloat(normalizeDigits(entry || '0')); return v * mult; };
+
+function displayNodes() {
+  const v = value();
+  const word = MULTS.find(([m]) => m === mult)?.[1];
+  const typed = entry ? nf(6).format(parseFloat(entry)) + (entry.endsWith('.') ? '٫' : '') : '';
+  return [
+    el('div', { class: 'main' }, entry ? [typed, word ? ` ${word}` : ''] : el('span', { class: 'ph' }, 'اكتب تخمينك')),
+    el('div', { class: 'full' }, entry && v > 0 ? `= ${fmtFull(v)} ${state.question.unit}` : `الوحدة: ${state.question.unit}`),
+  ];
+}
+
+function press(k) {
+  if (k === '⌫') entry = entry.slice(0, -1);
+  else if (k === '.') { if (!entry.includes('.')) entry = (entry || '0') + '.'; }
+  else if (entry.replace('.', '').length < 12) entry = entry === '0' ? k : entry + k;
+  updateDisplay();
+}
+function updateDisplay() {
+  const d = document.getElementById('display');
+  if (d) d.replaceChildren(...displayNodes());
+  const b = document.getElementById('submit');
+  if (b) b.disabled = !(value() > 0);
+  document.querySelectorAll('.mults button').forEach((btn) => btn.classList.toggle('on', Number(btn.dataset.m) === mult));
+}
+
+function submit() {
+  const v = value();
+  if (!(v > 0)) return;
+  socket.emit('player:guess', { value: v }, (res) => {
+    if (res?.ok) { editing = false; if (navigator.vibrate) navigator.vibrate(30); }
+  });
+}
+
+let raf = 0;
+function renderQuestion() {
+  const s = state;
+  const q = s.question;
+  const hasGuess = s.myGuess != null && !editing;
+  const top = [
+    el('div', { class: 'muted' }, `السؤال ${fmtOrdinal(s.qIndex + 1)} من ${fmtOrdinal(s.total)}`),
+    el('div', { class: 'q' }, q.text),
+    el('div', { class: 'tbar' }, el('div', { id: 'tb' })),
+  ];
+  if (!s.canAnswer) {
+    $screen.replaceChildren(...top, el('div', { class: 'mid muted' }, 'انضممت أثناء السؤال — جاوب من السؤال الجاي'));
+  } else if (hasGuess) {
+    $screen.replaceChildren(...top,
+      el('div', { class: 'card locked pop' },
+        el('div', { class: 'muted' }, 'تخمينك ✓'),
+        el('div', { class: 'v' }, fmtShort(s.myGuess)),
+        el('div', { class: 'muted' }, `${fmtFull(s.myGuess)} ${q.unit}`),
+      ),
+      el('button', { class: 'btn ghost', style: 'margin-top:14px', onclick: () => { editing = true; renderQuestion(); } }, 'تعديل التخمين'),
+      el('div', { class: 'muted', style: 'text-align:center;margin-top:12px' }, 'بانتظار البقية…'),
+    );
+  } else {
+    $screen.replaceChildren(...top,
+      el('div', { class: 'display', id: 'display' }, displayNodes()),
+      el('div', { class: 'mults' }, MULTS.map(([m, w]) => el('button', { 'data-m': m, class: mult === m ? 'on' : '', onclick: () => { mult = mult === m ? 1 : m; updateDisplay(); } }, `× ${w}`))),
+      el('div', { class: 'pad' }, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '⌫'].map((k) =>
+        el('button', { onclick: () => press(k) }, k === '.' ? '٫' : k === '⌫' ? '⌫' : nf(0).format(Number(k))))),
+      el('button', { class: 'btn submit', id: 'submit', onclick: submit, disabled: !(value() > 0) }, 'ثبّت التخمين'),
+    );
+  }
+  cancelAnimationFrame(raf);
+  const loop = () => {
+    const tb = document.getElementById('tb');
+    if (!tb || state.phase !== 'question') return;
+    const left = Math.max(0, deadline - Date.now());
+    tb.style.width = `${Math.min(100, (left / (state.timerSec * 1000)) * 100)}%`;
+    tb.style.background = left < 6000 ? 'var(--red)' : 'var(--gold)';
+    if (left > 0) raf = requestAnimationFrame(loop);
+  };
+  loop();
+}
+
+// Physical keyboard support (desktop testing)
+document.addEventListener('keydown', (e) => {
+  if (!state || state.phase !== 'question' || document.activeElement?.tagName === 'INPUT') return;
+  if (/^[0-9٠-٩]$/.test(e.key)) press(normalizeDigits(e.key));
+  else if (e.key === '.' || e.key === ',') press('.');
+  else if (e.key === 'Backspace') press('⌫');
+  else if (e.key === 'Enter') submit();
+});
+
+function renderReveal() {
+  const s = state;
+  const q = s.question;
+  const r = s.myResult;
+  const color = !r ? 'var(--muted)' : r.missed ? 'var(--red)' : r.multiple < 1.5 ? 'var(--teal)' : r.multiple < 5 ? 'var(--gold)' : 'var(--red)';
+  const verdict = !r ? '' : r.missed ? 'ما لحقت تجاوب 😬' : r.multiple === 1 ? 'إجابة مثالية! 🎯' : r.multiple < 1.25 ? 'قريب جداً! 🔥' : r.multiple < 2 ? 'ممتاز 👏' : r.multiple < 5 ? 'مو بعيد' : r.multiple < 20 ? 'بعيد شوي 😅' : 'ضايع تماماً 🙈';
+  $screen.replaceChildren(
+    el('div', { class: 'res pop', style: 'margin-top:10px' },
+      el('div', { class: 'muted' }, 'الجواب الصحيح'),
+      el('div', { class: 'big gold' }, fmtShort(q.answer), el('span', { style: 'font-size:1.1rem;color:var(--text)' }, ` ${q.unit}`)),
+      r ? [
+        el('div', { class: 'mult', style: `color:${color};margin-top:18px` }, fmtMult(r.multiple)),
+        el('div', { style: 'font-size:1.3rem;font-weight:700;margin-bottom:16px' }, verdict),
+        el('div', { class: 'card', style: 'text-align:right' },
+          el('div', { class: 'kv' }, el('span', { class: 'muted' }, 'تخمينك'), el('b', {}, r.missed ? '—' : fmtShort(r.guess))),
+          el('div', { class: 'kv' }, el('span', { class: 'muted' }, 'ترتيبك في السؤال'), el('b', {}, `${fmtOrdinal(r.rank)} من ${fmtOrdinal(r.of)}`)),
+          s.myTeamScore != null ? el('div', { class: 'kv' }, el('span', { class: 'muted' }, 'نتيجة فريقك'), el('b', { class: 'ltr' }, fmtMult(s.myTeamScore))) : null,
+        ),
+      ] : el('div', { class: 'muted', style: 'margin-top:20px' }, 'لم تشارك في هذا السؤال'),
+    ),
+  );
+}
+
+function renderBoard() {
+  const s = state;
+  const solo = s.standings?.solo || [];
+  const myIdx = solo.findIndex((x) => x.id === s.me.id);
+  const me = solo[myIdx];
+  const teams = s.standings?.teams || [];
+  const myTeamIdx = teams.findIndex((t) => t.id === s.me.teamId);
+  const isFinal = s.phase === 'final';
+  $screen.replaceChildren(
+    el('div', { class: 'res pop', style: 'margin-top:10px' },
+      el('div', { class: 'muted' }, isFinal ? 'النتيجة النهائية' : `بعد ${fmtOrdinal(s.qIndex + 1)} من ${fmtOrdinal(s.total)}`),
+      s.mode === 'team' && myTeamIdx >= 0 ? el('div', { class: 'big', style: `color:${teams[myTeamIdx].color}` }, `${teams[myTeamIdx].name}: المركز ${fmtOrdinal(myTeamIdx + 1)}`) : null,
+      me ? [
+        el('div', { class: 'big' }, isFinal && myIdx === 0 ? '🏆 أنت الفائز!' : `مركزك ${fmtOrdinal(myIdx + 1)} من ${fmtOrdinal(solo.length)}`),
+        el('div', { class: 'mult gold' }, fmtMult(me.avg)),
+        el('div', { class: 'muted', style: 'margin-bottom:14px' }, 'معدلك (الأقل أفضل)'),
+      ] : null,
+      el('div', { class: 'card', style: 'text-align:right' }, solo.slice(0, 5).map((x, i) => el('div', { class: `lbrow ${x.id === s.me.id ? 'me' : ''}` }, el('span', {}, `${fmtOrdinal(i + 1)}. ${x.name}`), el('b', { class: 'ltr' }, fmtMult(x.avg))))),
+      isFinal ? el('div', { class: 'muted', style: 'margin-top:16px' }, 'انتظر المضيف لجولة جديدة') : null,
+    ),
+  );
+}
+</script>
+</body>
+</html>
