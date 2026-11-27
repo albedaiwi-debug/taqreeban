@@ -17,7 +17,7 @@ const nextState = (s, pred) => new Promise((res) => { const h = (st) => { if (pr
   const { code, hostToken } = await emit(host, 'host:create', {});
   assert.match(code, /^[A-Z]{4}$/);
 
-  host.emit('host:settings', { mode: 'team', teamCount: 2, timer: 30 });
+  host.emit('host:settings', { mode: 'team', teamCount: 2, timer: 90 });
   await wait(100);
 
   const names = ['براك', 'لولوة', 'أحمد', 'سارة'];

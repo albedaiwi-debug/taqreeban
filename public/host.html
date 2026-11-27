@@ -62,6 +62,9 @@
   .ans-short { font-size: 1.4rem; color: var(--muted); }
   .src { font-size: 1rem; color: var(--muted); margin-top: 6px; }
   .src a { color: var(--blue); }
+  .facts { margin-top: 8px; font-size: 1.05rem; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+  .facts a { color: var(--blue); }
+  .calcline { margin-top: 8px; font-size: 1.15rem; }
   .napkin { margin-top: 14px; padding: 14px 18px; font-size: 1.25rem; background: var(--bg2); border-radius: 14px; border-right: 4px solid var(--gold); }
   .chart { position: relative; flex: 1; min-height: 210px; margin-top: 20px; direction: ltr; }
   .axis { position: absolute; left: 0; right: 0; bottom: 34px; height: 2px; background: var(--line); }
@@ -208,7 +211,7 @@ function renderLobby() {
         el('div', { class: 'card settings' },
           el('div', {}, el('label', {}, 'طريقة اللعب'), seg([['solo', 'فردي'], ['team', 'فرق']], s.settings.mode, (v) => set({ mode: v }))),
           s.settings.mode === 'team' ? el('div', {}, el('label', {}, 'عدد الفرق'), seg([2, 3, 4, 5, 6].map((n) => [n, fmtOrdinal(n)]), s.settings.teamCount, (v) => set({ teamCount: v }))) : null,
-          el('div', {}, el('label', {}, 'وقت السؤال'), seg([[30, '٣٠ ث'], [45, '٤٥ ث'], [60, '٦٠ ث']], s.settings.timer, (v) => set({ timer: v }))),
+          el('div', {}, el('label', {}, 'وقت السؤال'), seg([[60, '٦٠ ث'], [90, '٩٠ ث'], [120, '١٢٠ ث']], s.settings.timer, (v) => set({ timer: v }))),
         ),
         el('div', { class: 'card players' }, el('h3', {}, `اللاعبون (${fmtOrdinal(s.players.length)})`), playersBox),
         el('div', { class: 'lobby-actions' },
@@ -314,8 +317,11 @@ function renderReveal() {
         el('div', { class: 'rq' }, q.text),
         el('div', { class: 'ans pop' }, fmtFull(q.answer), el('small', {}, ` ${q.unit}`)),
         q.answer >= 1e4 ? el('div', { class: 'ans-short' }, `(${fmtShort(q.answer)})`) : null,
-        el('div', { class: 'src' }, 'المصدر: ', q.source?.url ? el('a', { href: q.source.url, target: '_blank' }, q.source.name) : q.source?.name || '—', q.year ? ` · ${fmtOrdinal(q.year).replace(/٬/g, '')}` : ''),
-        q.napkin ? el('div', { class: 'napkin' }, el('b', { class: 'gold' }, 'حسبة سريعة: '), q.napkin) : null,
+        q.facts?.length
+          ? el('div', { class: 'facts' }, q.facts.map((f) => el('div', {}, '• ', f.text, f.source?.url ? [' — ', el('a', { href: f.source.url, target: '_blank' }, f.source.name)] : f.source?.name && f.source.name !== 'حساب مباشر' ? ` — ${f.source.name}` : '')))
+          : el('div', { class: 'src' }, 'المصدر: ', q.source?.url ? el('a', { href: q.source.url, target: '_blank' }, q.source.name) : q.source?.name || '—'),
+        q.calc ? el('div', { class: 'calcline' }, el('b', {}, 'الحساب: '), q.calc) : null,
+        q.napkin ? el('div', { class: 'napkin' }, el('b', { class: 'gold' }, 'كيف تقدّرها بسرعة: '), q.napkin) : null,
         el('div', { class: 'chart' },
           el('div', { class: 'axis' }),
           ticks.filter((_, i) => i % step === 0).map((k) => el('div', { class: 'tick', style: `left:${pos(10 ** k)}%` }, fmtShort(10 ** k))),

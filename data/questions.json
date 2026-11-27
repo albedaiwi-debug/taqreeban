@@ -1,287 +1,753 @@
 [
   {
-    "id": "gcc-burj-khalifa-height",
-    "text": "كم يبلغ ارتفاع برج خليفة في دبي؟",
-    "unit": "متر",
-    "answer": 828,
-    "year": 2010,
-    "source": { "name": "CTBUH – Skyscraper Center", "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3" },
-    "napkin": "١٦٣ طابقاً × نحو ٤ أمتار ≈ ٦٥٠ م، وفوقها إبرة طويلة ← قرابة ٨٠٠ م.",
-    "category": "عمارة",
+    "id": "f-iphone-burj",
+    "type": "fermi",
+    "text": "إذا رُصّت أجهزة iPhone 17 واقفةً فوق بعضها، فكم جهازاً يلزم للوصول إلى قمة برج خليفة؟",
+    "unit": "جهاز",
+    "formula": "828 / 0.1496",
+    "calc": "٨٢٨ م ÷ ١٤٩٫٦ مم",
+    "facts": [
+      {
+        "text": "ارتفاع برج خليفة ٨٢٨ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3"
+        }
+      },
+      {
+        "text": "طول iPhone 17 هو ١٤٩٫٦ مم",
+        "source": {
+          "name": "Apple",
+          "url": "https://support.apple.com/en-us/125089"
+        }
+      }
+    ],
+    "napkin": "طول الجوال ~١٥ سم، أي نحو ٧ أجهزة لكل متر × ٨٠٠ م ≈ ٥٥٠٠.",
+    "category": "مقارنات",
     "scope": "gcc",
-    "verified": true
+    "verified": true,
+    "answer": 5535
   },
   {
-    "id": "kw-towers-main-height",
-    "text": "كم يبلغ ارتفاع البرج الرئيسي في أبراج الكويت؟",
-    "unit": "متر",
-    "answer": 187,
-    "year": 1979,
-    "source": { "name": "CTBUH – Skyscraper Center", "url": "https://www.skyscrapercenter.com/building/kuwait-towers-main/24062" },
-    "napkin": "الكرة الدوّارة العليا على ارتفاع نحو ١٢٣ م، والرمح فوقها يضيف ستين متراً تقريباً.",
-    "category": "عمارة",
+    "id": "f-cards-burj",
+    "type": "fermi",
+    "text": "كم بطاقة بنكية مرصوصة فوق بعضها (مسطّحة) يلزم للوصول إلى ارتفاع برج خليفة؟",
+    "unit": "بطاقة",
+    "formula": "828 / 0.00076",
+    "calc": "٨٢٨ م ÷ ٠٫٧٦ مم",
+    "facts": [
+      {
+        "text": "ارتفاع برج خليفة ٨٢٨ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3"
+        }
+      },
+      {
+        "text": "سمك البطاقة البنكية القياسية ٠٫٧٦ مم",
+        "source": {
+          "name": "ISO/IEC 7810",
+          "url": "https://www.iso.org/standard/31432.html"
+        }
+      }
+    ],
+    "napkin": "البطاقة أقل من ملّيمتر، فالمتر يحتاج نحو ١٣٠٠ بطاقة × ٨٠٠ م ≈ مليون.",
+    "category": "مقارنات",
+    "scope": "gcc",
+    "verified": true,
+    "answer": 1089474
+  },
+  {
+    "id": "f-pitches-kuwait",
+    "type": "fermi",
+    "text": "كم ملعب كرة قدم بالمقاس الدولي يتسع داخل مساحة دولة الكويت؟",
+    "unit": "ملعب",
+    "formula": "17818e6 / (105 * 68)",
+    "calc": "١٧٬٨١٨ كم² ÷ (١٠٥ م × ٦٨ م)",
+    "facts": [
+      {
+        "text": "مساحة الكويت ١٧٬٨١٨ كم²",
+        "source": {
+          "name": "CIA World Factbook",
+          "url": "https://www.cia.gov/the-world-factbook/countries/kuwait/summaries"
+        }
+      },
+      {
+        "text": "مقاس الملعب الموصى به ١٠٥ × ٦٨ م",
+        "source": {
+          "name": "FIFA",
+          "url": "https://publications.fifa.com/fr/football-stadiums-guidelines/technical-guideline/stadium-guidelines/pitch-dimensions-and-surrounding-areas"
+        }
+      }
+    ],
+    "napkin": "الملعب ≈ ٧ آلاف م²، والكيلومتر المربع (مليون م²) يتسع لنحو ١٤٠ ملعباً × ١٨ ألف كم².",
+    "category": "مساحات",
     "scope": "kuwait",
-    "verified": true
+    "verified": true,
+    "answer": 2495518
   },
   {
-    "id": "kw-area",
-    "text": "كم تبلغ مساحة دولة الكويت؟",
-    "unit": "كم²",
-    "answer": 17818,
-    "source": { "name": "CIA World Factbook", "url": "https://www.cia.gov/the-world-factbook/countries/kuwait/summaries" },
-    "napkin": "الكويت تقريباً ١٥٠ كم × ١٢٠ كم ≈ ١٨ ألف كم².",
-    "category": "جغرافيا",
-    "scope": "kuwait",
-    "verified": true
+    "id": "f-cans-pool",
+    "type": "fermi",
+    "text": "كم علبة مشروب غازي (٣٣٠ مل) يلزم لتعبئة حوض سباحة أولمبي بعمق مترين؟",
+    "unit": "علبة",
+    "formula": "(50 * 25 * 2 * 1000) / 0.33",
+    "calc": "(٥٠ × ٢٥ × ٢ م³ = ٢٫٥ مليون لتر) ÷ ٠٫٣٣ لتر",
+    "facts": [
+      {
+        "text": "الحوض الأولمبي ٥٠ م × ٢٥ م",
+        "source": {
+          "name": "World Aquatics (Olympic-size pool)",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool"
+        }
+      }
+    ],
+    "napkin": "الحوض ٢٥٠٠ م³ = ٢٫٥ مليون لتر، وكل لتر ≈ ٣ علب.",
+    "category": "أحجام",
+    "scope": "world",
+    "verified": true,
+    "answer": 7575758
   },
   {
-    "id": "gcc-qatar2022-attendance",
-    "text": "كم متفرجاً حضروا مباريات كأس العالم قطر ٢٠٢٢ في الملاعب (مجموع كل المباريات)؟",
-    "unit": "متفرج",
-    "answer": 3400000,
-    "year": 2022,
-    "source": { "name": "FIFA – Qatar 2022 in numbers", "url": "https://publications.fifa.com/en/annual-report-2022/tournaments-and-events/fifa-world-cup-quatar-2022/fifa-world-cup-qatar-2022-in-numbers/" },
-    "napkin": "٦٤ مباراة × نحو ٥٣ ألف متفرج للمباراة ≈ ٣٫٤ مليون.",
-    "category": "رياضة",
-    "scope": "gcc",
-    "verified": true
+    "id": "f-a380-eiffel",
+    "type": "fermi",
+    "text": "كم طائرة إيرباص A380 (بأقصى وزن إقلاع) تعادل وزن برج إيفل كاملاً؟",
+    "unit": "طائرة",
+    "formula": "10100 / 575",
+    "calc": "١٠٬١٠٠ طن ÷ ٥٧٥ طن",
+    "facts": [
+      {
+        "text": "وزن برج إيفل ١٠٬١٠٠ طن",
+        "source": {
+          "name": "Tour Eiffel",
+          "url": "https://www.toureiffel.paris/en/the-monument/key-figures"
+        }
+      },
+      {
+        "text": "أقصى وزن إقلاع للـ A380 هو ٥٧٥ طناً",
+        "source": {
+          "name": "Airbus",
+          "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2022-02/Airbus-A380-Facts-and-Figures-February-2022.pdf"
+        }
+      }
+    ],
+    "napkin": "البرج ~١٠ آلاف طن والطائرة ~٦٠٠ طن ← ١٠٠٠٠ ÷ ٦٠٠ ≈ ١٧.",
+    "category": "أوزان",
+    "scope": "world",
+    "verified": true,
+    "answer": 17.57
   },
   {
-    "id": "gcc-dxb-passengers-2024",
-    "text": "كم مسافراً مرّ عبر مطار دبي الدولي خلال عام ٢٠٢٤؟",
-    "unit": "مسافر",
-    "answer": 92300000,
-    "year": 2024,
-    "source": { "name": "Dubai Media Office", "url": "https://mediaoffice.ae/en/news/2025/january/30-01/dxb-records-highest-annual-traffic" },
-    "napkin": "نحو ٢٥٠ ألف مسافر يومياً × ٣٦٥ يوماً ≈ ٩٠ مليون.",
-    "category": "طيران",
-    "scope": "gcc",
-    "verified": true
-  },
-  {
-    "id": "space-moon-distance",
-    "text": "كم يبلغ متوسط المسافة بين الأرض والقمر؟",
-    "unit": "كم",
-    "answer": 384400,
-    "source": { "name": "NASA – Moon facts", "url": "https://science.nasa.gov/moon/facts/" },
-    "napkin": "يتسع الفراغ بينهما لنحو ٣٠ كرة أرضية × قطر ١٢٧٥٠ كم ≈ ٣٨٠ ألف كم.",
+    "id": "f-drive-moon",
+    "type": "fermi",
+    "text": "لو قدت سيارة بسرعة ١٢٠ كم/س دون توقف، فكم يوماً تحتاج لتصل إلى القمر؟",
+    "unit": "يوم",
+    "formula": "384400 / 120 / 24",
+    "calc": "٣٨٤٬٤٠٠ كم ÷ ١٢٠ كم/س ÷ ٢٤ ساعة",
+    "facts": [
+      {
+        "text": "متوسط المسافة إلى القمر ٣٨٤٬٤٠٠ كم",
+        "source": {
+          "name": "NASA",
+          "url": "https://science.nasa.gov/moon/facts/"
+        }
+      }
+    ],
+    "napkin": "~٤٠٠ ألف كم ÷ ١٢٠ ≈ ٣٣٠٠ ساعة ÷ ٢٤ ≈ ١٤٠ يوماً.",
     "category": "فضاء",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 133
   },
   {
-    "id": "geo-everest-height",
-    "text": "كم يبلغ ارتفاع قمة إيفرست عن سطح البحر؟",
-    "unit": "متر",
-    "answer": 8849,
-    "year": 2020,
-    "source": { "name": "Britannica (القياس المشترك الصين–نيبال: 8,848.86 م)", "url": "https://kids.britannica.com/students/article/John-Hunt-Baron-Hunt/41556" },
-    "napkin": "الطائرات التجارية تطير على ١٠–١١ كم، وقمة إيفرست أقل من ذلك بقليل.",
-    "category": "جغرافيا",
+    "id": "f-drive-sun",
+    "type": "fermi",
+    "text": "لو قدت سيارة بسرعة ١٢٠ كم/س دون توقف، فكم سنة تحتاج لتصل إلى الشمس؟",
+    "unit": "سنة",
+    "formula": "150e6 / 120 / (24 * 365.25)",
+    "calc": "١٥٠ مليون كم ÷ ١٢٠ كم/س ÷ ٨٧٦٦ ساعة في السنة",
+    "facts": [
+      {
+        "text": "بُعد الأرض عن الشمس ~١٥٠ مليون كم",
+        "source": {
+          "name": "Royal Museums Greenwich",
+          "url": "https://www.rmg.co.uk/stories/topics/how-far-away-moon"
+        }
+      }
+    ],
+    "napkin": "١٥٠ مليون ÷ ١٢٠ ≈ ١٫٢٥ مليون ساعة، والسنة ~٩ آلاف ساعة ← ~١٤٠ سنة.",
+    "category": "فضاء",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 143
   },
   {
-    "id": "geo-great-wall-length",
-    "text": "كم يبلغ الطول الكلي لسور الصين العظيم بكل فروعه وأجزائه؟",
-    "unit": "كم",
-    "answer": 21196,
-    "year": 2012,
-    "source": { "name": "CBC News (المسح الصيني الرسمي ٢٠١٢)", "url": "https://www.cbc.ca/news/world/great-wall-of-china-even-longer-than-previously-thought-1.1263111" },
-    "napkin": "سور أسرة مينغ وحده نحو ٨٨٥٠ كم، ومع أسوار الأسر الأخرى يتضاعف أكثر من مرتين.",
-    "category": "جغرافيا",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "arch-eiffel-weight",
-    "text": "كم يزن برج إيفل كاملاً؟",
-    "unit": "طن",
-    "answer": 10100,
-    "source": { "name": "Tour Eiffel – Key figures", "url": "https://www.toureiffel.paris/en/the-monument/key-figures" },
-    "napkin": "الهيكل الحديدي ٧٣٠٠ طن، والمصاعد والمطاعم والمرافق تضيف نحو ٢٨٠٠ طن.",
-    "category": "عمارة",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "calc-olympic-pool",
-    "text": "كم لتر ماء يتسع حوض سباحة أولمبي بعمق مترين؟",
-    "unit": "لتر",
-    "answer": 2500000,
-    "source": { "name": "مواصفات World Aquatics (حساب: ٥٠ × ٢٥ × ٢ م)", "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool" },
-    "napkin": "٥٠ م × ٢٥ م × ٢ م = ٢٥٠٠ م³، وكل متر مكعب = ١٠٠٠ لتر.",
+    "id": "f-billion-seconds",
+    "type": "fermi",
+    "text": "مليار ثانية… كم سنة تساوي؟",
+    "unit": "سنة",
+    "formula": "1e9 / (365.25 * 86400)",
+    "calc": "١٬٠٠٠٬٠٠٠٬٠٠٠ ÷ ٣١٬٥٥٧٬٦٠٠ ثانية في السنة",
+    "facts": [
+      {
+        "text": "السنة = ٣٦٥٫٢٥ يوم × ٨٦٬٤٠٠ ثانية",
+        "source": {
+          "name": "حساب مباشر",
+          "url": ""
+        }
+      }
+    ],
+    "napkin": "السنة ≈ ٣١٫٥ مليون ثانية ← مليار ÷ ٣١٫٥ مليون ≈ ٣٢.",
     "category": "حسبة",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 31.69
   },
   {
-    "id": "calc-seconds-year",
-    "text": "كم ثانية في السنة (٣٦٥ يوماً)؟",
-    "unit": "ثانية",
-    "answer": 31536000,
-    "source": { "name": "حساب مباشر", "url": "" },
-    "napkin": "٦٠ × ٦٠ = ٣٦٠٠ ثانية في الساعة × ٢٤ = ٨٦٤٠٠ في اليوم × ٣٦٥.",
+    "id": "f-count-million",
+    "type": "fermi",
+    "text": "لو عددت من ١ إلى مليون، رقماً كل ثانية دون توقف، فكم يوماً تحتاج؟",
+    "unit": "يوم",
+    "formula": "1e6 / 86400",
+    "calc": "١٬٠٠٠٬٠٠٠ ثانية ÷ ٨٦٬٤٠٠ ثانية في اليوم",
+    "facts": [
+      {
+        "text": "اليوم = ٨٦٬٤٠٠ ثانية",
+        "source": {
+          "name": "حساب مباشر",
+          "url": ""
+        }
+      }
+    ],
+    "napkin": "اليوم ~٨٦ ألف ثانية ≈ ١٠٠ ألف ← مليون ÷ ١٠٠ ألف ≈ ١٠ أيام وأكثر بقليل.",
     "category": "حسبة",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 11.57
   },
   {
-    "id": "calc-minutes-week",
-    "text": "كم دقيقة في الأسبوع؟",
-    "unit": "دقيقة",
-    "answer": 10080,
-    "source": { "name": "حساب مباشر", "url": "" },
-    "napkin": "٦٠ × ٢٤ = ١٤٤٠ دقيقة في اليوم × ٧.",
-    "category": "حسبة",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "calc-heartbeats-day",
-    "text": "إذا نبض قلبك ٧٠ نبضة في الدقيقة، فكم نبضة ينبض في يوم كامل؟",
+    "id": "f-heartbeats-life",
+    "type": "fermi",
+    "text": "قلب ينبض ٧٠ نبضة في الدقيقة… كم نبضة ينبض خلال عمر ٨٠ سنة؟",
     "unit": "نبضة",
-    "answer": 100800,
-    "source": { "name": "حساب مباشر", "url": "" },
-    "napkin": "٧٠ × ٦٠ = ٤٢٠٠ في الساعة × ٢٤.",
-    "category": "حسبة",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "body-bones",
-    "text": "كم عظمة في هيكل الإنسان البالغ؟",
-    "unit": "عظمة",
-    "answer": 206,
-    "source": { "name": "BioNumbers – Harvard", "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383" },
-    "napkin": "اليدان والقدمان وحدها فيها أكثر من نصف عظام الجسم (١٠٦ عظمة).",
+    "formula": "70 * 60 * 24 * 365.25 * 80",
+    "calc": "٧٠ × ٦٠ × ٢٤ × ٣٦٥٫٢٥ × ٨٠",
+    "facts": [
+      {
+        "text": "المعطيات كلها في السؤال",
+        "source": {
+          "name": "حساب مباشر",
+          "url": ""
+        }
+      }
+    ],
+    "napkin": "~١٠٠ ألف نبضة يومياً × ٣٦٥ ≈ ٣٧ مليون سنوياً × ٨٠ ≈ ٣ مليار.",
     "category": "جسم الإنسان",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 2945376000
   },
   {
-    "id": "geo-challenger-deep",
-    "text": "كم يبلغ عمق أعمق نقطة معروفة في المحيطات (تشالنجر ديب في خندق ماريانا)؟",
-    "unit": "متر",
-    "answer": 10935,
-    "year": 2021,
-    "source": { "name": "NOAA عبر Live Science", "url": "https://livescience.com/how-deep-is-the-mariana-trench" },
-    "napkin": "أعمق من ارتفاع إيفرست (~٨٨٥٠ م) بنحو ألفي متر.",
-    "category": "جغرافيا",
+    "id": "f-light-earth",
+    "type": "fermi",
+    "text": "كم مرة يستطيع الضوء أن يلف حول الأرض (عند خط الاستواء) في ثانية واحدة؟",
+    "unit": "مرة",
+    "formula": "299792.458 / 40075",
+    "calc": "٢٩٩٬٧٩٢ كم/ث ÷ ٤٠٬٠٧٥ كم",
+    "facts": [
+      {
+        "text": "سرعة الضوء ٢٩٩٬٧٩٢٬٤٥٨ م/ث",
+        "source": {
+          "name": "NIST",
+          "url": "https://physics.nist.gov/cuu/Constants/Value/c.html"
+        }
+      },
+      {
+        "text": "محيط الأرض عند خط الاستواء ٤٠٬٠٧٥ كم",
+        "source": {
+          "name": "Space.com (أرقام NASA)",
+          "url": "https://www.space.com/17638-how-big-is-earth.html"
+        }
+      }
+    ],
+    "napkin": "الضوء ~٣٠٠ ألف كم/ث والمحيط ~٤٠ ألف كم ← ٣٠٠ ÷ ٤٠ ≈ ٧٫٥.",
+    "category": "فضاء",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 7.48
   },
   {
-    "id": "pop-world-2024",
-    "text": "كم كان عدد سكان العالم في منتصف عام ٢٠٢٤ حسب الأمم المتحدة؟",
-    "unit": "نسمة",
-    "answer": 8200000000,
-    "year": 2024,
-    "source": { "name": "UN World Population Prospects 2024", "url": "https://www.un.org/sustainabledevelopment/blog/2024/07/press-release-wpp2024/" },
-    "napkin": "الهند والصين وحدهما نحو ٢٫٩ مليار، أي ما يقارب ثلث العالم.",
-    "category": "سكان",
+    "id": "f-burj-everest",
+    "type": "fermi",
+    "text": "كم برج خليفة مرصوصة فوق بعضها تصل إلى قمة إيفرست (من مستوى سطح البحر)؟",
+    "unit": "برج",
+    "formula": "8849 / 828",
+    "calc": "٨٨٤٩ م ÷ ٨٢٨ م",
+    "facts": [
+      {
+        "text": "ارتفاع إيفرست ٨٨٤٨٫٨٦ م",
+        "source": {
+          "name": "Britannica",
+          "url": "https://www.britannica.com/place/Mount-Everest"
+        }
+      },
+      {
+        "text": "ارتفاع برج خليفة ٨٢٨ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3"
+        }
+      }
+    ],
+    "napkin": "إيفرست ~٩ كم والبرج ~٠٫٨ كم ← ٩ ÷ ٠٫٨ ≈ ١١.",
+    "category": "مقارنات",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 10.69
   },
   {
-    "id": "biz-mcdonalds-restaurants",
-    "text": "كم مطعم ماكدونالدز كان في العالم بنهاية عام ٢٠٢٥؟",
-    "unit": "مطعم",
-    "answer": 45356,
-    "year": 2025,
-    "source": { "name": "McDonald's – Restaurants by Market 2025", "url": "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/pdf/Restaurants%20by%20Market%202025.pdf" },
-    "napkin": "أمريكا وحدها نحو ١٣٫٧ ألف مطعم، أي قرابة ثلث المجموع.",
+    "id": "f-burj-ocean",
+    "type": "fermi",
+    "text": "كم برج خليفة مرصوصة فوق بعضها نحتاج لنصل من سطح البحر إلى أعمق نقطة في المحيط (تشالنجر ديب)؟",
+    "unit": "برج",
+    "formula": "10935 / 828",
+    "calc": "١٠٬٩٣٥ م ÷ ٨٢٨ م",
+    "facts": [
+      {
+        "text": "عمق تشالنجر ديب ~١٠٬٩٣٥ م",
+        "source": {
+          "name": "NOAA عبر Live Science",
+          "url": "https://livescience.com/how-deep-is-the-mariana-trench"
+        }
+      },
+      {
+        "text": "ارتفاع برج خليفة ٨٢٨ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3"
+        }
+      }
+    ],
+    "napkin": "أعمق من ارتفاع إيفرست بنحو ٢ كم ← ~١١ كم ÷ ٠٫٨ ≈ ١٣.",
+    "category": "مقارنات",
+    "scope": "world",
+    "verified": true,
+    "answer": 13.21
+  },
+  {
+    "id": "f-walk-wall",
+    "type": "fermi",
+    "text": "لو مشيت بسرعة ٥ كم/س لمدة ٨ ساعات يومياً، فكم يوماً تحتاج لتمشي سور الصين العظيم كاملاً بكل فروعه؟",
+    "unit": "يوم",
+    "formula": "21196 / (5 * 8)",
+    "calc": "٢١٬١٩٦ كم ÷ ٤٠ كم في اليوم",
+    "facts": [
+      {
+        "text": "الطول الكلي للسور ٢١٬١٩٦ كم (مسح ٢٠١٢)",
+        "source": {
+          "name": "CBC News",
+          "url": "https://www.cbc.ca/news/world/great-wall-of-china-even-longer-than-previously-thought-1.1263111"
+        }
+      }
+    ],
+    "napkin": "السور ~٢٠ ألف كم ÷ ٤٠ كم يومياً ≈ ٥٠٠ يوم.",
+    "category": "مسافات",
+    "scope": "world",
+    "verified": true,
+    "answer": 530
+  },
+  {
+    "id": "f-walk-equator",
+    "type": "fermi",
+    "text": "لو مشيت بسرعة ٥ كم/س لمدة ٨ ساعات يومياً، فكم يوماً تحتاج لتلف حول الأرض عند خط الاستواء؟",
+    "unit": "يوم",
+    "formula": "40075 / (5 * 8)",
+    "calc": "٤٠٬٠٧٥ كم ÷ ٤٠ كم في اليوم",
+    "facts": [
+      {
+        "text": "محيط الأرض عند خط الاستواء ٤٠٬٠٧٥ كم",
+        "source": {
+          "name": "Space.com (أرقام NASA)",
+          "url": "https://www.space.com/17638-how-big-is-earth.html"
+        }
+      }
+    ],
+    "napkin": "المحيط ~٤٠ ألف كم ÷ ٤٠ كم يومياً ≈ ١٠٠٠ يوم.",
+    "category": "مسافات",
+    "scope": "world",
+    "verified": true,
+    "answer": 1002
+  },
+  {
+    "id": "f-a4-nile",
+    "type": "fermi",
+    "text": "كم ورقة A4 نحتاج لنصفّها طولياً (طرفاً بطرف) على امتداد نهر النيل؟",
+    "unit": "ورقة",
+    "formula": "6650000 / 0.297",
+    "calc": "٦٬٦٥٠ كم ÷ ٢٩٫٧ سم",
+    "facts": [
+      {
+        "text": "طول نهر النيل ~٦٬٦٥٠ كم",
+        "source": {
+          "name": "Britannica",
+          "url": "https://www.britannica.com/place/Nile-River"
+        }
+      },
+      {
+        "text": "مقاس ورقة A4 هو ٢١٠ × ٢٩٧ مم",
+        "source": {
+          "name": "ISO 216",
+          "url": "https://www.iso.org/standard/36631.html"
+        }
+      }
+    ],
+    "napkin": "الورقة ~٣٠ سم أي ٣ ورقات لكل متر × ٦٫٦٥ مليون متر ≈ ٢٠ مليون.",
+    "category": "مسافات",
+    "scope": "world",
+    "verified": true,
+    "answer": 22390572
+  },
+  {
+    "id": "f-a4-pitch",
+    "type": "fermi",
+    "text": "كم ورقة A4 نحتاج لتغطية أرضية ملعب كرة قدم دولي بالكامل؟",
+    "unit": "ورقة",
+    "formula": "(105 * 68) / (0.21 * 0.297)",
+    "calc": "(١٠٥ × ٦٨ م²) ÷ (٠٫٢١ × ٠٫٢٩٧ م²)",
+    "facts": [
+      {
+        "text": "مقاس الملعب الموصى به ١٠٥ × ٦٨ م",
+        "source": {
+          "name": "FIFA",
+          "url": "https://publications.fifa.com/fr/football-stadiums-guidelines/technical-guideline/stadium-guidelines/pitch-dimensions-and-surrounding-areas"
+        }
+      },
+      {
+        "text": "مقاس ورقة A4 هو ٢١٠ × ٢٩٧ مم",
+        "source": {
+          "name": "ISO 216",
+          "url": "https://www.iso.org/standard/36631.html"
+        }
+      }
+    ],
+    "napkin": "الورقة ≈ ١/١٦ م²، أي ١٦ ورقة لكل متر مربع × ~٧ آلاف م² ≈ ١١٠ آلاف.",
+    "category": "مساحات",
+    "scope": "world",
+    "verified": true,
+    "answer": 114478
+  },
+  {
+    "id": "f-mcd-years",
+    "type": "fermi",
+    "text": "لو أكلت كل يوم في فرع ماكدونالدز مختلف، فكم سنة تحتاج لتزور كل فروعه في العالم؟",
+    "unit": "سنة",
+    "formula": "45356 / 365.25",
+    "calc": "٤٥٬٣٥٦ فرعاً ÷ ٣٦٥٫٢٥ يوماً",
+    "facts": [
+      {
+        "text": "عدد فروع ماكدونالدز ٤٥٬٣٥٦ (نهاية ٢٠٢٥)",
+        "source": {
+          "name": "McDonald's",
+          "url": "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/pdf/Restaurants%20by%20Market%202025.pdf"
+        }
+      }
+    ],
+    "napkin": "أمريكا وحدها ~١٣ ألف فرع، والعالم نحو ٣ أضعافها ≈ ٤٥ ألف ÷ ٣٦٥ ≈ ١٢٠ سنة.",
     "category": "أعمال",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 124
   },
   {
-    "id": "avi-a380-delivered",
-    "text": "كم طائرة إيرباص A380 سُلّمت لشركات الطيران طوال عمر البرنامج؟",
-    "unit": "طائرة",
-    "answer": 251,
-    "year": 2021,
-    "source": { "name": "Airbus – Orders and deliveries", "url": "https://www.airbus.com/en/products-services/commercial-aircraft/orders-and-deliveries" },
-    "napkin": "طيران الإمارات وحدها استلمت ١٢٣ طائرة، أي قرابة النصف.",
+    "id": "f-dxb-hour",
+    "type": "fermi",
+    "text": "في عام ٢٠٢٤، كم مسافراً في المتوسط كان يمر عبر مطار دبي الدولي كل ساعة؟",
+    "unit": "مسافر",
+    "formula": "92.3e6 / (366 * 24)",
+    "calc": "٩٢٫٣ مليون ÷ (٣٦٦ يوماً × ٢٤ ساعة)",
+    "facts": [
+      {
+        "text": "مسافرو مطار دبي في ٢٠٢٤: ٩٢٫٣ مليون (٢٠٢٤ سنة كبيسة: ٣٦٦ يوماً)",
+        "source": {
+          "name": "Dubai Media Office",
+          "url": "https://mediaoffice.ae/en/news/2025/january/30-01/dxb-records-highest-annual-traffic"
+        }
+      }
+    ],
+    "napkin": "~٩٠ مليون ÷ ٣٦٥ ≈ ٢٥٠ ألف يومياً ÷ ٢٤ ≈ ١٠ آلاف في الساعة.",
     "category": "طيران",
-    "scope": "world",
-    "verified": true
+    "scope": "gcc",
+    "verified": true,
+    "answer": 10508
   },
   {
-    "id": "space-iss-mass",
-    "text": "كم تزن محطة الفضاء الدولية؟",
-    "unit": "كغ",
-    "answer": 419725,
-    "source": { "name": "Space.com (أرقام NASA)", "url": "https://www.space.com/topics/international-space-station" },
-    "napkin": "أكثر من ٣٢٠ سيارة × نحو ١٣٠٠ كغ ≈ ٤٢٠ ألف كغ.",
+    "id": "f-humans-area",
+    "type": "fermi",
+    "text": "لو وقف كل سكان العالم متلاصقين (٤ أشخاص في كل متر مربع)، فكم كيلومتراً مربعاً يشغلون؟",
+    "unit": "كم²",
+    "formula": "8.2e9 / 4 / 1e6",
+    "calc": "٨٫٢ مليار ÷ ٤ = ٢٫٠٥ مليار م² ÷ مليون",
+    "facts": [
+      {
+        "text": "سكان العالم ~٨٫٢ مليار (منتصف ٢٠٢٤)",
+        "source": {
+          "name": "الأمم المتحدة",
+          "url": "https://www.un.org/sustainabledevelopment/blog/2024/07/press-release-wpp2024/"
+        }
+      }
+    ],
+    "napkin": "٨ مليار ÷ ٤ = ٢ مليار م² = ٢٠٠٠ كم²، أي أصغر من ثُمن مساحة الكويت!",
+    "category": "مساحات",
+    "scope": "world",
+    "verified": true,
+    "answer": 2050
+  },
+  {
+    "id": "f-humans-cans-pools",
+    "type": "fermi",
+    "text": "لو صبّ كل إنسان على الأرض علبة مشروب واحدة (٣٣٠ مل)، فكم حوض سباحة أولمبي (بعمق مترين) نملأ؟",
+    "unit": "حوض",
+    "formula": "8.2e9 * 0.33 / (50 * 25 * 2 * 1000)",
+    "calc": "٨٫٢ مليار × ٠٫٣٣ لتر ÷ ٢٫٥ مليون لتر",
+    "facts": [
+      {
+        "text": "سكان العالم ~٨٫٢ مليار (منتصف ٢٠٢٤)",
+        "source": {
+          "name": "الأمم المتحدة",
+          "url": "https://www.un.org/sustainabledevelopment/blog/2024/07/press-release-wpp2024/"
+        }
+      },
+      {
+        "text": "الحوض الأولمبي ٥٠ م × ٢٥ م",
+        "source": {
+          "name": "World Aquatics (Olympic-size pool)",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool"
+        }
+      }
+    ],
+    "napkin": "٨ مليار × ثلث لتر ≈ ٢٫٧ مليار لتر ÷ ٢٫٥ مليون لتر للحوض ≈ ألف حوض.",
+    "category": "أحجام",
+    "scope": "world",
+    "verified": true,
+    "answer": 1082
+  },
+  {
+    "id": "f-bones-match",
+    "type": "fermi",
+    "text": "كم عظمة في أجسام كل اللاعبين داخل الملعب في مباراة كرة قدم (٢٢ لاعباً)؟",
+    "unit": "عظمة",
+    "formula": "22 * 206",
+    "calc": "٢٢ لاعباً × ٢٠٦ عظمة",
+    "facts": [
+      {
+        "text": "جسم الإنسان البالغ فيه ٢٠٦ عظمة",
+        "source": {
+          "name": "BioNumbers – Harvard",
+          "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383"
+        }
+      }
+    ],
+    "napkin": "~٢٠٠ عظمة × ٢٢ ≈ ٤٤٠٠.",
+    "category": "جسم الإنسان",
+    "scope": "world",
+    "verified": true,
+    "answer": 4532
+  },
+  {
+    "id": "f-iss-week",
+    "type": "fermi",
+    "text": "كم مرة تلف محطة الفضاء الدولية حول الأرض في أسبوع واحد؟",
+    "unit": "لفة",
+    "formula": "16 * 7",
+    "calc": "١٦ لفة يومياً × ٧ أيام",
+    "facts": [
+      {
+        "text": "المحطة تلف ١٦ مرة كل ٢٤ ساعة",
+        "source": {
+          "name": "NASA",
+          "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/"
+        }
+      }
+    ],
+    "napkin": "اللفة ~٩٠ دقيقة، واليوم ١٤٤٠ دقيقة ← ١٦ لفة × ٧.",
     "category": "فضاء",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 112
   },
   {
-    "id": "space-iss-speed",
-    "text": "بأي سرعة تدور محطة الفضاء الدولية حول الأرض؟",
-    "unit": "كم/ساعة",
-    "answer": 27600,
-    "source": { "name": "BBC Sky at Night Magazine", "url": "https://www.skyatnightmagazine.com/space-missions/international-space-station-facts-history" },
-    "napkin": "تلف حول الأرض (~٤٢ ألف كم في مدارها) كل ٩٢ دقيقة تقريباً ← ٤٢٠٠٠ ÷ ١٫٥ ساعة ≈ ٢٨ ألف كم/س.",
+    "id": "f-kt-burj",
+    "type": "fermi",
+    "text": "كم برجاً بارتفاع البرج الرئيسي في أبراج الكويت، مرصوصةً فوق بعضها، تعادل ارتفاع برج خليفة؟",
+    "unit": "برج",
+    "formula": "828 / 187",
+    "calc": "٨٢٨ م ÷ ١٨٧ م",
+    "facts": [
+      {
+        "text": "ارتفاع البرج الرئيسي لأبراج الكويت ١٨٧ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/kuwait-towers-main/24062"
+        }
+      },
+      {
+        "text": "ارتفاع برج خليفة ٨٢٨ م",
+        "source": {
+          "name": "CTBUH",
+          "url": "https://www.skyscrapercenter.com/building/burj-khalifa/3"
+        }
+      }
+    ],
+    "napkin": "~٨٠٠ ÷ ~٢٠٠ ≈ ٤.",
+    "category": "مقارنات",
+    "scope": "kuwait",
+    "verified": true,
+    "answer": 4.43
+  },
+  {
+    "id": "f-light-moon",
+    "type": "fermi",
+    "text": "كم ثانية يحتاج ضوء القمر ليصل إلى الأرض؟",
+    "unit": "ثانية",
+    "formula": "384400 / 299792.458",
+    "calc": "٣٨٤٬٤٠٠ كم ÷ ٢٩٩٬٧٩٢ كم/ث",
+    "facts": [
+      {
+        "text": "متوسط المسافة إلى القمر ٣٨٤٬٤٠٠ كم",
+        "source": {
+          "name": "NASA",
+          "url": "https://science.nasa.gov/moon/facts/"
+        }
+      },
+      {
+        "text": "سرعة الضوء ٢٩٩٬٧٩٢٬٤٥٨ م/ث",
+        "source": {
+          "name": "NIST",
+          "url": "https://physics.nist.gov/cuu/Constants/Value/c.html"
+        }
+      }
+    ],
+    "napkin": "~٤٠٠ ألف كم ÷ ٣٠٠ ألف كم/ث ≈ ١٫٣ ثانية.",
     "category": "فضاء",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 1.28
   },
   {
-    "id": "arch-liberty-height",
-    "text": "كم يبلغ ارتفاع تمثال الحرية في نيويورك من الأرض حتى قمة الشعلة (مع القاعدة)؟",
-    "unit": "متر",
-    "answer": 93,
-    "source": { "name": "U.S. National Park Service", "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm" },
-    "napkin": "القاعدة نحو ٤٧ م والتمثال فوقها نحو ٤٦ م.",
-    "category": "عمارة",
+    "id": "f-iphones-iss",
+    "type": "fermi",
+    "text": "كم جهاز iPhone 17 يعادل وزنها وزن محطة الفضاء الدولية؟",
+    "unit": "جهاز",
+    "formula": "419725 / 0.177",
+    "calc": "٤١٩٬٧٢٥ كغ ÷ ١٧٧ غ",
+    "facts": [
+      {
+        "text": "وزن محطة الفضاء الدولية ٤١٩٬٧٢٥ كغ",
+        "source": {
+          "name": "Space.com (أرقام NASA)",
+          "url": "https://www.space.com/topics/international-space-station"
+        }
+      },
+      {
+        "text": "وزن iPhone 17 هو ١٧٧ غ",
+        "source": {
+          "name": "Apple",
+          "url": "https://support.apple.com/en-us/125089"
+        }
+      }
+    ],
+    "napkin": "الجوال ~٢٠٠ غ أي ٥ أجهزة لكل كيلو × ٤٢٠ ألف كغ ≈ ٢ مليون.",
+    "category": "أوزان",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 2371328
   },
   {
-    "id": "arch-pyramid-original-height",
-    "text": "كم كان الارتفاع الأصلي للهرم الأكبر في الجيزة عند بنائه؟",
-    "unit": "متر",
-    "answer": 146.6,
-    "source": { "name": "Great Pyramid of Giza – Wikipedia", "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza" },
-    "napkin": "ظل أعلى بناء بشري لأكثر من ٣٨٠٠ سنة، بارتفاع يقارب مبنى من ٤٠ طابقاً.",
-    "category": "عمارة",
-    "scope": "world",
-    "verified": true
+    "id": "f-qatar-avg",
+    "type": "fermi",
+    "text": "في كأس العالم قطر ٢٠٢٢ (٦٤ مباراة)، كم كان متوسط الحضور في المباراة الواحدة؟",
+    "unit": "متفرج",
+    "formula": "3.4e6 / 64",
+    "calc": "٣٫٤ مليون ÷ ٦٤ مباراة",
+    "facts": [
+      {
+        "text": "إجمالي الحضور ٣٫٤ مليون متفرج",
+        "source": {
+          "name": "FIFA",
+          "url": "https://publications.fifa.com/en/annual-report-2022/tournaments-and-events/fifa-world-cup-quatar-2022/fifa-world-cup-qatar-2022-in-numbers/"
+        }
+      }
+    ],
+    "napkin": "ملاعب قطر سعتها ٤٠–٨٨ ألفاً، فالمتوسط حول ٥٠ ألفاً.",
+    "category": "رياضة",
+    "scope": "gcc",
+    "verified": true,
+    "answer": 53125
   },
   {
-    "id": "geo-nile-length",
-    "text": "كم يبلغ طول نهر النيل؟",
-    "unit": "كم",
-    "answer": 6650,
-    "source": { "name": "Britannica", "url": "https://www.britannica.com/place/Nile-River" },
-    "napkin": "يجري من بحيرة فيكتوريا قرب خط الاستواء حتى البحر المتوسط (~٣١° شمالاً)، مع التعرجات.",
-    "category": "جغرافيا",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "space-sun-distance",
-    "text": "كم يبعد كوكب الأرض في المتوسط عن الشمس؟",
-    "unit": "كم",
-    "answer": 150000000,
-    "source": { "name": "Royal Museums Greenwich", "url": "https://www.rmg.co.uk/stories/topics/how-far-away-moon" },
-    "napkin": "يصلنا ضوء الشمس بعد ٨ دقائق و٢٠ ثانية: ٥٠٠ ثانية × ٣٠٠ ألف كم/ث.",
-    "category": "فضاء",
-    "scope": "world",
-    "verified": true
-  },
-  {
-    "id": "arch-eiffel-steps",
+    "id": "k-eiffel-steps",
+    "type": "fact",
     "text": "كم درجة سلّم من الأرض حتى قمة برج إيفل؟",
     "unit": "درجة",
-    "answer": 1665,
-    "source": { "name": "CNN – Eiffel Tower Fast Facts", "url": "https://www.wral.com/eiffel-tower-fast-facts/21522017/" },
+    "formula": "1665",
+    "calc": "",
+    "facts": [
+      {
+        "text": "١٦٦٥ درجة حتى القمة",
+        "source": {
+          "name": "CNN – Eiffel Tower Fast Facts",
+          "url": "https://www.wral.com/eiffel-tower-fast-facts/21522017/"
+        }
+      }
+    ],
     "napkin": "ارتفاع ~٣٠٠ م ÷ نحو ١٨ سم للدرجة ≈ ١٧٠٠ درجة.",
-    "category": "عمارة",
+    "category": "معلومة",
     "scope": "world",
-    "verified": true
+    "verified": true,
+    "answer": 1665
+  },
+  {
+    "id": "k-liberty-height",
+    "type": "fact",
+    "text": "كم يبلغ ارتفاع تمثال الحرية في نيويورك من الأرض حتى قمة الشعلة (مع القاعدة)؟",
+    "unit": "متر",
+    "formula": "93",
+    "calc": "",
+    "facts": [
+      {
+        "text": "٩٣ م من الأرض حتى الشعلة",
+        "source": {
+          "name": "U.S. National Park Service",
+          "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm"
+        }
+      }
+    ],
+    "napkin": "القاعدة نحو ٤٧ م والتمثال فوقها نحو ٤٦ م.",
+    "category": "معلومة",
+    "scope": "world",
+    "verified": true,
+    "answer": 93
+  },
+  {
+    "id": "k-a380-delivered",
+    "type": "fact",
+    "text": "كم طائرة إيرباص A380 سُلّمت لشركات الطيران طوال عمر البرنامج؟",
+    "unit": "طائرة",
+    "formula": "251",
+    "calc": "",
+    "facts": [
+      {
+        "text": "٢٥١ طائرة حتى توقف الإنتاج في ٢٠٢١",
+        "source": {
+          "name": "Airbus",
+          "url": "https://www.airbus.com/en/products-services/commercial-aircraft/orders-and-deliveries"
+        }
+      }
+    ],
+    "napkin": "طيران الإمارات وحدها استلمت ١٢٣ طائرة، أي قرابة النصف.",
+    "category": "معلومة",
+    "scope": "world",
+    "verified": true,
+    "answer": 251
   }
 ]
