@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>تقريباً — شاشة المضيف</title>
+<link rel="stylesheet" href="/style.css" />
+<style>
+  body { overflow: hidden; }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 18px 36px; }
+  .top .logo { font-size: 2rem; }
+  .top .right { display: flex; gap: 12px; align-items: center; }
+  .stage { height: calc(100vh - 84px); padding: 0 48px 36px; display: flex; flex-direction: column; }
+
+  /* Home */
+  .home { margin: auto; text-align: center; }
+  .home h1 { font-size: 6rem; margin: 0; line-height: 1.1; }
+  .home p { font-size: 1.6rem; color: var(--muted); margin: 10px 0 40px; }
+
+  /* Lobby */
+  .lobby { display: grid; grid-template-columns: 440px 1fr; gap: 36px; flex: 1; min-height: 0; }
+  .join { padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .join .qr { background: #fff; padding: 14px; border-radius: 16px; width: 330px; height: 330px; }
+  .join .qr img { width: 100%; height: 100%; display: block; }
+  .join .code { font-size: 4.2rem; font-weight: 700; letter-spacing: 12px; color: var(--gold); line-height: 1; direction: ltr; }
+  .join .url { font-size: 1.05rem; direction: ltr; color: var(--muted); }
+  .side { display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+  .settings { padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center; }
+  .settings label { color: var(--muted); font-weight: 600; margin-left: 8px; }
+  .players { padding: 22px; flex: 1; overflow: auto; }
+  .players h3 { margin: 0 0 14px; font-size: 1.3rem; }
+  .plist { display: flex; flex-wrap: wrap; gap: 10px; }
+  .plist .chip { font-size: 1.2rem; padding: 8px 16px; }
+  .plist .chip.off { opacity: .4; }
+  .plist .chip button { background: none; color: var(--muted); padding: 0 2px; font-size: 1rem; }
+  .teams { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .team { border-radius: 14px; padding: 14px; background: var(--bg2); border-top: 5px solid; }
+  .team h4 { margin: 0 0 10px; font-size: 1.2rem; }
+  .lobby-actions { display: flex; gap: 14px; align-items: center; }
+  .lobby-actions .btn { font-size: 1.5rem; padding: 16px 48px; }
+
+  /* Ready / Question */
+  .center { margin: auto; text-align: center; max-width: 1300px; width: 100%; }
+  .qnum { font-size: 1.4rem; color: var(--muted); font-weight: 600; }
+  .ready-big { font-size: 7rem; font-weight: 700; margin: 10px 0 40px; }
+  .qtext { font-size: 3.4rem; font-weight: 700; line-height: 1.35; margin: 14px 0 18px; }
+  .unit { font-size: 1.6rem; }
+  .timer { position: relative; width: 170px; height: 170px; margin: 34px auto 20px; }
+  .timer svg { transform: rotate(-90deg); }
+  .timer .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 3.6rem; font-weight: 700; }
+  .answered { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
+  .answered .chip { opacity: .35; transition: all .25s; }
+  .answered .chip.done { opacity: 1; border-color: var(--teal); color: var(--teal); }
+  .actions { margin-top: 26px; display: flex; gap: 14px; justify-content: center; }
+
+  /* Reveal */
+  .reveal { display: grid; grid-template-columns: 1fr 460px; gap: 28px; flex: 1; min-height: 0; }
+  .rmain { display: flex; flex-direction: column; min-height: 0; }
+  .rq { font-size: 1.7rem; font-weight: 600; margin: 4px 0 6px; }
+  .ans { font-size: 5.2rem; font-weight: 700; color: var(--gold); line-height: 1.1; }
+  .ans small { font-size: 1.8rem; color: var(--text); font-weight: 600; }
+  .ans-short { font-size: 1.4rem; color: var(--muted); }
+  .src { font-size: 1rem; color: var(--muted); margin-top: 6px; }
+  .src a { color: var(--blue); }
+  .napkin { margin-top: 14px; padding: 14px 18px; font-size: 1.25rem; background: var(--bg2); border-radius: 14px; border-right: 4px solid var(--gold); }
+  .chart { position: relative; flex: 1; min-height: 210px; margin-top: 20px; direction: ltr; }
+  .axis { position: absolute; left: 0; right: 0; bottom: 34px; height: 2px; background: var(--line); }
+  .tick { position: absolute; bottom: 0; transform: translateX(-50%); font-size: .95rem; color: var(--muted); white-space: nowrap; direction: rtl; }
+  .tick::before { content: ''; position: absolute; left: 50%; bottom: 30px; width: 1px; height: 10px; background: var(--line); }
+  .aline { position: absolute; top: 0; bottom: 34px; width: 3px; background: var(--gold); transform: translateX(-50%); box-shadow: 0 0 18px var(--gold); }
+  .aline span { position: absolute; top: -4px; left: 8px; color: var(--gold); font-weight: 700; white-space: nowrap; direction: rtl; }
+  .gdot { position: absolute; transform: translate(-50%, 50%); display: flex; flex-direction: column; align-items: center; gap: 2px; animation: pop .4s ease both; }
+  .gdot i { width: 16px; height: 16px; border-radius: 50%; background: var(--teal); border: 2px solid var(--bg); }
+  .gdot b { font-size: .95rem; white-space: nowrap; direction: rtl; background: var(--bg); padding: 0 6px; border-radius: 6px; }
+  .rlist { padding: 18px; overflow: auto; }
+  .row { display: grid; grid-template-columns: 34px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 6px; border-bottom: 1px solid var(--line); font-size: 1.2rem; animation: rise .4s ease both; }
+  .row:last-child { border-bottom: 0; }
+  .row .rk { color: var(--muted); font-weight: 700; text-align: center; }
+  .row .g { color: var(--muted); font-size: 1rem; }
+  .row .m { font-weight: 700; min-width: 80px; text-align: left; direction: ltr; }
+  .row.best { background: rgba(255,200,69,.08); border-radius: 10px; }
+  .row.best .m { color: var(--gold); }
+  .row.miss .m { color: var(--red); }
+  .tscores { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+
+  /* Leaderboard / final */
+  .board { max-width: 1000px; width: 100%; margin: 0 auto; overflow: auto; }
+  .board h2 { font-size: 2.6rem; text-align: center; margin: 8px 0 18px; }
+  .lb { display: grid; grid-template-columns: 60px 1fr auto auto; gap: 16px; align-items: center; padding: 14px 22px; margin-bottom: 10px; font-size: 1.5rem; animation: rise .4s ease both; }
+  .lb .rk { font-size: 1.7rem; font-weight: 700; color: var(--muted); text-align: center; }
+  .lb .avg { font-weight: 700; direction: ltr; }
+  .lb.first { border-color: var(--gold); }
+  .lb.first .rk, .lb.first .avg { color: var(--gold); }
+  .lb .played { font-size: 1rem; color: var(--muted); }
+  .section-title { font-size: 1.3rem; color: var(--muted); margin: 22px 0 10px; }
+  .podium { display: flex; justify-content: center; align-items: flex-end; gap: 20px; margin: 10px 0 26px; }
+  .pod { width: 220px; text-align: center; }
+  .pod .bar { border-radius: 16px 16px 0 0; display: grid; place-items: center; font-size: 3rem; font-weight: 700; color: #1a1405; }
+  .pod .nm { font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
+  .pod .sc { color: var(--muted); margin-bottom: 8px; direction: ltr; }
+  .hint { color: var(--muted); font-size: .95rem; margin-top: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">تقريب<span>اً</span></div>
+  <div class="right" id="topRight"></div>
+</div>
+<div class="stage" id="stage"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/shared.js"></script>
+<script>
+const socket = io();
+let state = null;
+let deadline = 0;
+let joinUrl = '';
+const LS_KEY = 'taqreeban.host';
+
+const $stage = document.getElementById('stage');
+const $topRight = document.getElementById('topRight');
+
+function saveHost(code, hostToken) { localStorage.setItem(LS_KEY, JSON.stringify({ code, hostToken })); }
+function loadHost() { try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; } }
+
+socket.on('connect', () => {
+  const saved = loadHost();
+  if (saved) {
+    socket.emit('host:resume', saved, (res) => { if (!res?.ok) { localStorage.removeItem(LS_KEY); renderHome(); } });
+  } else renderHome();
+});
+socket.on('state', (s) => {
+  const codeChanged = !state || state.code !== s.code;
+  state = s;
+  if (s.phase === 'question') deadline = Date.now() + s.remainingMs;
+  if (codeChanged) fetch(`/api/join-url/${s.code}`).then((r) => r.json()).then((j) => { joinUrl = j.url; render(); });
+  render();
+});
+
+function createRoom() {
+  socket.emit('host:create', {}, (res) => { if (res?.ok) saveHost(res.code, res.hostToken); });
+}
+
+function renderHome() {
+  state = null;
+  $topRight.innerHTML = '';
+  $stage.replaceChildren(
+    el('div', { class: 'home pop' },
+      el('h1', {}, 'تقريب', el('span', { class: 'gold' }, 'اً')),
+      el('p', {}, 'لعبة التخمين الذكي للجمعات — قرّب رقمك من الجواب الصحيح'),
+      el('button', { class: 'btn', style: 'font-size:1.6rem;padding:18px 56px', onclick: createRoom }, 'إنشاء غرفة جديدة'),
+    ),
+  );
+}
+
+function render() {
+  if (!state) return;
+  renderTop();
+  const views = { lobby: renderLobby, ready: renderReady, question: renderQuestion, reveal: renderReveal, leaderboard: renderLeaderboard, final: renderFinal };
+  views[state.phase]?.();
+}
+
+function renderTop() {
+  const parts = [];
+  if (state.phase !== 'lobby') {
+    parts.push(el('span', { class: 'chip' }, 'رمز الغرفة: ', el('b', { class: 'gold ltr' }, state.code)));
+    if (state.qIndex >= 0) parts.push(el('span', { class: 'chip' }, `السؤال ${fmtOrdinal(state.qIndex + 1)} / ${fmtOrdinal(state.total)}`));
+  }
+  const online = state.players.filter((p) => p.online).length;
+  parts.push(el('span', { class: 'chip' }, el('i', { class: 'dot', style: 'background:var(--teal)' }), `${fmtOrdinal(online)} لاعب`));
+  $topRight.replaceChildren(...parts);
+}
+
+// ---------- Lobby ----------
+function renderLobby() {
+  const s = state;
+  const seg = (items, cur, onPick) => el('div', { class: 'seg' }, items.map(([v, label]) => el('button', { class: v === cur ? 'on' : '', onclick: () => onPick(v) }, label)));
+  const set = (patch) => socket.emit('host:settings', patch);
+
+  const kick = (p) => el('button', { title: 'إزالة', onclick: () => { if (confirm(`إزالة ${p.name}؟`)) socket.emit('host:kick', { playerId: p.id }); } }, '✕');
+  const pchip = (p) => el('span', { class: `chip pop ${p.online ? '' : 'off'}` }, p.name, kick(p));
+
+  let playersBox;
+  if (s.settings.mode === 'team') {
+    const unassigned = s.players.filter((p) => !s.teams.some((t) => t.id === p.teamId));
+    playersBox = el('div', {},
+      el('div', { class: 'teams' }, s.teams.map((t) => el('div', { class: 'team', style: `border-color:${t.color}` },
+        el('h4', { style: `color:${t.color}` }, t.name),
+        el('div', { class: 'plist' }, s.players.filter((p) => p.teamId === t.id).map(pchip)),
+      ))),
+      unassigned.length ? el('div', { style: 'margin-top:14px' }, el('div', { class: 'muted', style: 'margin-bottom:8px' }, 'لم يختاروا فريقاً بعد (سيتم توزيعهم تلقائياً):'), el('div', { class: 'plist' }, unassigned.map(pchip))) : null,
+    );
+  } else {
+    playersBox = s.players.length ? el('div', { class: 'plist' }, s.players.map(pchip)) : el('div', { class: 'muted', style: 'font-size:1.2rem' }, 'بانتظار اللاعبين… امسحوا الرمز بجوالاتكم');
+  }
+
+  const canStart = s.players.some((p) => p.online);
+  $stage.replaceChildren(
+    el('div', { class: 'lobby' },
+      el('div', { class: 'card join' },
+        el('div', { style: 'font-size:1.3rem;font-weight:600' }, 'امسح للانضمام'),
+        el('div', { class: 'qr' }, el('img', { src: `/qr/${s.code}.svg`, alt: 'QR' })),
+        el('div', { class: 'muted' }, 'أو ادخل الموقع واكتب الرمز'),
+        el('div', { class: 'code' }, s.code),
+        el('div', { class: 'url' }, joinUrl.replace(/\?r=.*/, '')),
+      ),
+      el('div', { class: 'side' },
+        el('div', { class: 'card settings' },
+          el('div', {}, el('label', {}, 'طريقة اللعب'), seg([['solo', 'فردي'], ['team', 'فرق']], s.settings.mode, (v) => set({ mode: v }))),
+          s.settings.mode === 'team' ? el('div', {}, el('label', {}, 'عدد الفرق'), seg([2, 3, 4, 5, 6].map((n) => [n, fmtOrdinal(n)]), s.settings.teamCount, (v) => set({ teamCount: v }))) : null,
+          el('div', {}, el('label', {}, 'وقت السؤال'), seg([[30, '٣٠ ث'], [45, '٤٥ ث'], [60, '٦٠ ث']], s.settings.timer, (v) => set({ timer: v }))),
+        ),
+        el('div', { class: 'card players' }, el('h3', {}, `اللاعبون (${fmtOrdinal(s.players.length)})`), playersBox),
+        el('div', { class: 'lobby-actions' },
+          el('button', { class: 'btn', disabled: !canStart, onclick: () => socket.emit('host:start') }, 'ابدأ اللعبة'),
+          el('span', { class: 'muted' }, `${fmtOrdinal(10)} أسئلة · الأقل هو الأفضل: ×١ = إجابة مثالية`),
+        ),
+      ),
+    ),
+  );
+}
+
+// ---------- Ready ----------
+function renderReady() {
+  $stage.replaceChildren(
+    el('div', { class: 'center pop' },
+      el('div', { class: 'qnum' }, `السؤال ${fmtOrdinal(state.qIndex + 1)} من ${fmtOrdinal(state.total)}`),
+      el('div', { class: 'ready-big' }, state.qIndex === 0 ? 'جاهزين؟' : 'السؤال الجاي'),
+      el('button', { class: 'btn', style: 'font-size:1.8rem;padding:18px 64px', onclick: () => socket.emit('host:go') }, `ابدأ ▶ (${fmtOrdinal(state.settings.timer)} ثانية)`),
+      el('div', { class: 'hint' }, 'يظهر السؤال ويبدأ المؤقت عند الضغط · مسطرة المسافة تعمل أيضاً'),
+    ),
+  );
+}
+
+// ---------- Question ----------
+let timerRaf = 0;
+function renderQuestion() {
+  const s = state;
+  const q = s.question;
+  const R = 74, C = 2 * Math.PI * R;
+  const answered = new Set(s.answeredIds);
+  const expected = s.players.filter((p) => p.online || answered.has(p.id));
+  $stage.replaceChildren(
+    el('div', { class: 'center' },
+      el('div', { class: 'qnum' }, q.category ? `${q.category}` : ''),
+      el('div', { class: 'qtext rise' }, q.text),
+      el('div', { class: 'unit muted' }, 'الوحدة: ', el('b', { class: 'gold' }, q.unit)),
+      el('div', { class: 'timer' },
+        el('div', { html: `<svg width="170" height="170"><circle cx="85" cy="85" r="${R}" stroke="#2b3b60" stroke-width="12" fill="none"/><circle id="ring" cx="85" cy="85" r="${R}" stroke="#ffc845" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg>` }),
+        el('div', { class: 'num', id: 'tnum' }, ''),
+      ),
+      el('div', { class: 'muted', style: 'font-size:1.2rem' }, `جاوب ${fmtOrdinal(answered.size)} من ${fmtOrdinal(s.expected)}`),
+      el('div', { class: 'answered' }, expected.map((p) => el('span', { class: `chip ${answered.has(p.id) ? 'done' : ''}` }, answered.has(p.id) ? '✓ ' : '', p.name))),
+      el('div', { class: 'actions' }, el('button', { class: 'btn ghost', onclick: () => socket.emit('host:reveal') }, 'اكشف الجواب الآن')),
+    ),
+  );
+  cancelAnimationFrame(timerRaf);
+  const total = s.settings.timer * 1000;
+  const tick = () => {
+    const left = Math.max(0, deadline - Date.now());
+    const ring = document.getElementById('ring');
+    const tnum = document.getElementById('tnum');
+    if (!ring || state.phase !== 'question') return;
+    ring.setAttribute('stroke-dashoffset', String(C * (1 - left / total)));
+    ring.setAttribute('stroke', left < 6000 ? '#ff6b6b' : '#ffc845');
+    tnum.textContent = fmtOrdinal(Math.ceil(left / 1000));
+    if (left > 0) timerRaf = requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+// ---------- Reveal ----------
+function renderReveal() {
+  const s = state;
+  const q = s.question;
+  const res = s.reveal.results;
+  const answered = res.filter((r) => !r.missed);
+  const best = answered.length ? answered[0].multiple : null;
+
+  // Log-scale number line with every guess and the true answer.
+  const vals = [q.answer, ...answered.map((r) => r.guess)];
+  let lo = Math.log10(Math.min(...vals)), hi = Math.log10(Math.max(...vals));
+  if (hi - lo < 1) { const mid = (hi + lo) / 2; lo = mid - 0.5; hi = mid + 0.5; }
+  lo -= (hi - lo) * 0.08; hi += (hi - lo) * 0.08;
+  const pos = (v) => ((Math.log10(v) - lo) / (hi - lo)) * 100;
+  const ticks = [];
+  for (let k = Math.ceil(lo); k <= Math.floor(hi); k++) ticks.push(k);
+  const step = Math.ceil(ticks.length / 7);
+  const rows = []; // simple collision stacking
+  const dots = answered
+    .slice().sort((a, b) => a.guess - b.guess)
+    .map((r, i) => {
+      const p = pos(r.guess);
+      let row = 0;
+      while (rows[row] != null && Math.abs(rows[row] - p) < 9) row++;
+      rows[row] = p;
+      const team = teamById(s, r.teamId);
+      return el('div', { class: 'gdot', style: `left:${p}%;bottom:${34 + 8 + row * 44}px;animation-delay:${i * 60}ms` },
+        el('b', {}, r.name),
+        el('i', { style: team ? `background:${team.color}` : '' }),
+      );
+    });
+
+  const tscores = s.settings.mode === 'team'
+    ? el('div', { class: 'tscores' }, s.teams.filter((t) => s.reveal.teamScores[t.id] != null)
+        .sort((a, b) => s.reveal.teamScores[a.id] - s.reveal.teamScores[b.id])
+        .map((t) => el('span', { class: 'chip', style: `border-color:${t.color}` }, el('i', { class: 'dot', style: `background:${t.color}` }), t.name, el('b', { class: 'ltr' }, fmtMult(s.reveal.teamScores[t.id])))))
+    : null;
+
+  const isLast = s.qIndex >= s.total - 1;
+  $stage.replaceChildren(
+    el('div', { class: 'reveal' },
+      el('div', { class: 'rmain' },
+        el('div', { class: 'rq' }, q.text),
+        el('div', { class: 'ans pop' }, fmtFull(q.answer), el('small', {}, ` ${q.unit}`)),
+        q.answer >= 1e4 ? el('div', { class: 'ans-short' }, `(${fmtShort(q.answer)})`) : null,
+        el('div', { class: 'src' }, 'المصدر: ', q.source?.url ? el('a', { href: q.source.url, target: '_blank' }, q.source.name) : q.source?.name || '—', q.year ? ` · ${fmtOrdinal(q.year).replace(/٬/g, '')}` : ''),
+        q.napkin ? el('div', { class: 'napkin' }, el('b', { class: 'gold' }, 'حسبة سريعة: '), q.napkin) : null,
+        el('div', { class: 'chart' },
+          el('div', { class: 'axis' }),
+          ticks.filter((_, i) => i % step === 0).map((k) => el('div', { class: 'tick', style: `left:${pos(10 ** k)}%` }, fmtShort(10 ** k))),
+          el('div', { class: 'aline', style: `left:${pos(q.answer)}%` }, el('span', {}, 'الجواب')),
+          dots,
+        ),
+      ),
+      el('div', { class: 'card rlist' },
+        tscores,
+        res.length ? res.map((r, i) => {
+          const team = teamById(s, r.teamId);
+          return el('div', { class: `row ${!r.missed && r.multiple === best ? 'best' : ''} ${r.missed ? 'miss' : ''}`, style: `animation-delay:${i * 50}ms` },
+            el('div', { class: 'rk' }, !r.missed && r.multiple === best ? '👑' : fmtOrdinal(i + 1)),
+            el('div', {}, team ? el('i', { class: 'dot', style: `background:${team.color};margin-left:8px` }) : null, r.name),
+            el('div', { class: 'g' }, r.missed ? 'لم يجاوب' : fmtShort(r.guess)),
+            el('div', { class: 'm' }, fmtMult(r.multiple)),
+          );
+        }) : el('div', { class: 'muted' }, 'لا توجد إجابات'),
+        el('div', { class: 'actions' }, el('button', { class: 'btn', onclick: () => socket.emit('host:next') }, isLast ? 'النتيجة النهائية 🏆' : 'الترتيب')),
+      ),
+    ),
+  );
+}
+
+// ---------- Leaderboard ----------
+function lbRows(list, teamsMode) {
+  return list.map((x, i) => {
+    const team = teamsMode ? x : teamById(state, x.teamId);
+    return el('div', { class: `card lb ${i === 0 ? 'first' : ''}`, style: `animation-delay:${i * 70}ms` },
+      el('div', { class: 'rk' }, fmtOrdinal(i + 1)),
+      el('div', {}, team ? el('i', { class: 'dot', style: `background:${team.color};margin-left:10px;width:14px;height:14px` }) : null, x.name),
+      el('div', { class: 'played' }, x.played < state.qIndex + 1 ? `${fmtOrdinal(x.played)} أسئلة` : ''),
+      el('div', { class: 'avg' }, fmtMult(x.avg)),
+    );
+  });
+}
+
+function renderLeaderboard() {
+  const s = state;
+  const teamMode = s.settings.mode === 'team';
+  $stage.replaceChildren(
+    el('div', { class: 'board' },
+      el('h2', {}, `الترتيب بعد ${fmtOrdinal(s.qIndex + 1)} من ${fmtOrdinal(s.total)}`),
+      teamMode ? [el('div', { class: 'section-title' }, 'الفرق'), lbRows(s.standings.teams, true), el('div', { class: 'section-title' }, 'اللاعبون')] : null,
+      lbRows(s.standings.solo.slice(0, teamMode ? 8 : 10), false),
+      el('div', { class: 'actions' }, el('button', { class: 'btn', onclick: () => socket.emit('host:next') }, 'السؤال التالي')),
+      el('div', { class: 'hint' }, 'المعدل = متوسط "كم مرة بعدت عن الجواب" · الأقل يفوز'),
+    ),
+  );
+}
+
+// ---------- Final ----------
+function renderFinal() {
+  const s = state;
+  const teamMode = s.settings.mode === 'team';
+  const top = teamMode ? s.standings.teams : s.standings.solo;
+  const medal = ['#ffc845', '#c9d1e0', '#d79b62'];
+  const order = [1, 0, 2].filter((i) => top[i]);
+  $stage.replaceChildren(
+    el('div', { class: 'board' },
+      el('h2', {}, teamMode ? '🏆 الفريق الفائز' : '🏆 النتيجة النهائية'),
+      el('div', { class: 'podium' }, order.map((i) => el('div', { class: 'pod pop', style: `animation-delay:${(2 - i) * 250}ms` },
+        el('div', { class: 'nm' }, top[i].name),
+        el('div', { class: 'sc' }, fmtMult(top[i].avg)),
+        el('div', { class: 'bar', style: `height:${[200, 140, 100][i]}px;background:${medal[i]}` }, fmtOrdinal(i + 1)),
+      ))),
+      teamMode ? [el('div', { class: 'section-title' }, 'كل الفرق'), lbRows(s.standings.teams, true), el('div', { class: 'section-title' }, 'أفضل اللاعبين')] : null,
+      lbRows(teamMode ? s.standings.solo.slice(0, 5) : s.standings.solo.slice(3), false),
+      el('div', { class: 'actions' },
+        el('button', { class: 'btn', onclick: () => socket.emit('host:lobby') }, 'جولة جديدة'),
+        el('button', { class: 'btn ghost', onclick: () => { localStorage.removeItem(LS_KEY); location.reload(); } }, 'إنهاء الغرفة'),
+      ),
+    ),
+  );
+}
+
+// Keyboard: Space / Enter triggers the main action on each screen.
+document.addEventListener('keydown', (e) => {
+  if (!state || (e.code !== 'Space' && e.code !== 'Enter')) return;
+  if (document.activeElement && document.activeElement.tagName === 'BUTTON') return;
+  e.preventDefault();
+  const p = state.phase;
+  if (p === 'ready') socket.emit('host:go');
+  else if (p === 'question') socket.emit('host:reveal');
+  else if (p === 'reveal' || p === 'leaderboard') socket.emit('host:next');
+});
+</script>
+</body>
+</html>
